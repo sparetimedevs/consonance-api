@@ -19,7 +19,7 @@ application {
 
 plugins {
     kotlin("jvm") version "1.3.11"
-    id("com.github.johnrengelman.shadow") version "2.0.4"
+    id("com.github.johnrengelman.shadow") version "4.0.2"
     id("com.palantir.docker") version "0.20.1"
     id("org.flywaydb.flyway") version "5.2.0"
 
@@ -69,16 +69,17 @@ dependencies {
     testCompile("org.mongodb:mongodb-driver-sync:$mongodbDriverSyncVersion")
 }
 
-apply {
-    plugin("com.github.johnrengelman.shadow")
-    plugin("application")
-}
-
 tasks.withType<ShadowJar> {
     baseName = "consonance-api"
     classifier = ""
     version = ""
 }
+
+apply {
+    plugin("com.github.johnrengelman.shadow")
+    plugin("application")
+}
+
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
