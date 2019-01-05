@@ -5,10 +5,6 @@ val kotlinVersion: String by project
 val ktorVersion: String by project
 val logbackVersion: String by project
 val slf4jVersion: String by project
-val squashVersion: String by project
-val exposedVersion: String by project
-val h2Version: String by project
-val hikariVersion: String by project
 val koinVersion: String by project
 val mongodbDriverReactiveStreamVersion: String by project
 val kotlinxVersion: String by project
@@ -37,11 +33,6 @@ version = ""
 repositories {
     mavenCentral()
     jcenter()
-//    maven("https://plugins.gradle.org/m2/")
-//    fun bintray(s: String = "") = "https://dl.bintray.com/kotlin/$s"
-//    maven(bintray("exposed"))
-//    maven(bintray("ktor"))
-//    maven(bintray("kotlinx"))
 }
 
 dependencies {
@@ -63,9 +54,6 @@ dependencies {
     compile("ch.qos.logback:logback-classic:$logbackVersion")
     compile("org.slf4j:slf4j-api:$slf4jVersion")
     compile("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
-    compile("com.h2database:h2:$h2Version")
-    compile("org.jetbrains.exposed:exposed:$exposedVersion")
-    compile("com.zaxxer:HikariCP:$hikariVersion")
     compile("org.koin:koin-core:$koinVersion")
     compile("org.mongodb:mongodb-driver-reactivestreams:$mongodbDriverReactiveStreamVersion")
 
@@ -79,8 +67,6 @@ dependencies {
     testCompile("org.junit.jupiter:junit-jupiter-api:$junitVersion")
     testCompile("org.koin:koin-test:$koinVersion")
     testCompile("org.mongodb:mongodb-driver-sync:$mongodbDriverSyncVersion")
-//    testCompile("org.mongodb:mongodb-driver-reactivestreams:$mongodbDriverReactiveStreamVersion")
-
 }
 
 apply {
