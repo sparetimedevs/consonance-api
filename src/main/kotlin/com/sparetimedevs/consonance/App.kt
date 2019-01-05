@@ -2,8 +2,10 @@ package com.sparetimedevs.consonance
 
 import com.codahale.metrics.Slf4jReporter
 import com.fasterxml.jackson.databind.SerializationFeature
+import com.fasterxml.jackson.databind.module.SimpleModule
 import com.sparetimedevs.consonance.api.api
 import com.sparetimedevs.consonance.api.errorHandling
+import com.sparetimedevs.consonance.json.serialization.CustomObjectIdSerializer
 import com.sparetimedevs.consonance.model.DataInitialiser
 import io.ktor.application.Application
 import io.ktor.application.install
@@ -21,6 +23,7 @@ import io.ktor.server.netty.Netty
 import io.ktor.websocket.WebSockets
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.bson.types.ObjectId
 import java.util.concurrent.TimeUnit
 
 fun Application.module() {
@@ -38,8 +41,11 @@ fun Application.module() {
     }
     install(Routing) {
         api(
+            Dependency.scoreRepository,
+            Dependency.composerRepository,
             Dependency.userRepository,
-            Dependency.composerRepository, logger)
+            logger
+        )
     }
     install(StatusPages) {
         errorHandling(logger)
@@ -47,6 +53,9 @@ fun Application.module() {
     install(ContentNegotiation) {
         jackson {
             configure(SerializationFeature.INDENT_OUTPUT, true)
+            val module = SimpleModule("CustomObjectIdSerializer")
+            module.addSerializer(CustomObjectIdSerializer(ObjectId::class.java))
+            registerModule(module)
         }
     }
 }

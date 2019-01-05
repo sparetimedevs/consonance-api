@@ -15,9 +15,6 @@ class MongodbDriverComparisonIT {
 
     @Test
     fun `Given five inserts at one moment when testing mongodb reactive streams driver and mongodb sync driver then sync driver is faster`() = runBlocking<Unit> {
-//        val reactiveStreamsMongodbDriver = ReactiveStreamsMongodbDriver()
-//        val syncMongodbDriver = SyncMongodbDriver()
-
         val executionTimeUsingReactiveStreamsDriver = executionTime(FIVE_DOCS, reactiveStreamsMongodbDriver::insert)
         val executionTimeUsingSyncDriver = executionTime(FIVE_DOCS, syncMongodbDriver::insert)
 
@@ -31,9 +28,6 @@ class MongodbDriverComparisonIT {
 
     @Test
     fun `Given one thousand inserts at one moment when testing mongodb reactive streams driver and mongodb sync driver then reactive streams driver is faster`() = runBlocking<Unit> {
-//        val reactiveStreamsMongodbDriver = ReactiveStreamsMongodbDriver()
-//        val syncMongodbDriver = SyncMongodbDriver()
-
         val executionTimeUsingReactiveStreamsDriver = executionTime(ONE_THOUSAND_DOCS, reactiveStreamsMongodbDriver::insert)
         val executionTimeUsingSyncDriver = executionTime(ONE_THOUSAND_DOCS, syncMongodbDriver::insert)
 
