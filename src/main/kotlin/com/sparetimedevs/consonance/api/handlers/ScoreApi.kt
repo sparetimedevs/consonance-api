@@ -1,7 +1,7 @@
 package com.sparetimedevs.consonance.api.handlers
 
-import com.sparetimedevs.consonance.model.User
-import com.sparetimedevs.consonance.repository.UserRepository
+import com.sparetimedevs.consonance.model.Score
+import com.sparetimedevs.consonance.repository.ScoreRepository
 import io.ktor.application.call
 import io.ktor.http.HttpStatusCode
 import io.ktor.request.receive
@@ -13,31 +13,31 @@ import io.ktor.routing.post
 import io.ktor.routing.put
 import org.slf4j.Logger
 
-const val USERS_PATH = "/users"
+const val SCORES_PATH = "/scores"
 
-fun Routing.apiUsers(repository: UserRepository, log: Logger) {
+fun Routing.apiScores(repository: ScoreRepository, log: Logger) {
 
-    get(USERS_PATH) {
+    get(SCORES_PATH) {
         call.respond(HttpStatusCode.OK, repository.findAll())
     }
 
-    get("$USERS_PATH$ID_PATH_PARAM") {
+    get("$SCORES_PATH$ID_PATH_PARAM") {
         call.respond(HttpStatusCode.OK, repository.findOneById(call.parameters[ID]?.toObjectId()!!))
     }
 
-    post(USERS_PATH) {
-        val user = call.receive<User>()
-        if (repository.save(user)) call.respond(HttpStatusCode.Created)
+    post(SCORES_PATH) {
+        val score = call.receive<Score>()
+        if (repository.save(score)) call.respond(HttpStatusCode.Created)
         else call.respond(HttpStatusCode.NotFound)
     }
 
-    put("$USERS_PATH$ID_PATH_PARAM") {
-        val user = call.receive<User>()
-        if (repository.update(call.parameters[ID]?.toObjectId()!!, user)) call.respond(HttpStatusCode.NoContent)
+    put("$SCORES_PATH$ID_PATH_PARAM") {
+        val score = call.receive<Score>()
+        if (repository.update(call.parameters[ID]?.toObjectId()!!, score)) call.respond(HttpStatusCode.NoContent)
         else call.respond(HttpStatusCode.NotFound)
     }
 
-    delete("$USERS_PATH$ID_PATH_PARAM") {
+    delete("$SCORES_PATH$ID_PATH_PARAM") {
         repository.deleteOneById(call.parameters[ID]?.toObjectId()!!)
         call.respond(HttpStatusCode.NoContent)
     }

@@ -10,7 +10,7 @@ import io.ktor.routing.Routing
 import io.ktor.routing.delete
 import io.ktor.routing.get
 import io.ktor.routing.post
-import org.bson.types.ObjectId
+import io.ktor.routing.put
 import org.slf4j.Logger
 
 const val COMPOSERS_PATH = "/composers"
@@ -31,18 +31,14 @@ fun Routing.apiComposers(repository: ComposerRepository, log: Logger) {
         else call.respond(HttpStatusCode.NotFound)
     }
 
-//    put(COMPOSERS_PATH) {
-//        val user = call.receive<UserDTO>()
-//        val updated = userService.updateUser(user)
-//        if (updated == null) call.respond(HttpStatusCode.NotFound)
-//        else call.respond(HttpStatusCode.OK, updated)
-//    }
-
-    delete("$COMPOSERS_PATH$ID_PATH_PARAM") {
-        val removed = repository.deleteOneById(call.parameters[ID]?.toObjectId()!!)//.deleteUser(call.parameters[ID]?.toInt()!!)
-        if (!removed.isEmpty()) call.respond(HttpStatusCode.OK) //TODO does this make sense?
+    put("$COMPOSERS_PATH$ID_PATH_PARAM") {
+        val composer = call.receive<Composer>()
+        if (repository.update(call.parameters[ID]?.toObjectId()!!, composer)) call.respond(HttpStatusCode.NoContent)
         else call.respond(HttpStatusCode.NotFound)
     }
-}
 
-fun String.toObjectId(): ObjectId = ObjectId(this)
+    delete("$COMPOSERS_PATH$ID_PATH_PARAM") {
+        repository.deleteOneById(call.parameters[ID]?.toObjectId()!!)
+        call.respond(HttpStatusCode.NoContent)
+    }
+}

@@ -7,6 +7,7 @@ import com.sparetimedevs.consonance.database.getAll
 import com.sparetimedevs.consonance.database.getCollection
 import com.sparetimedevs.consonance.database.getOneById
 import com.sparetimedevs.consonance.database.save
+import com.sparetimedevs.consonance.database.update
 import com.sparetimedevs.consonance.model.User
 import org.bson.types.ObjectId
 
@@ -23,4 +24,6 @@ class UserRepository(mongoDatabase : MongoDatabase) {
     suspend fun deleteOneById(id: ObjectId) = collection.deleteOneById(id)
 
     suspend fun save(user: User) = collection.save(user)
+
+    suspend fun update(id: ObjectId, user: User) = collection.update(id, user)
 }
