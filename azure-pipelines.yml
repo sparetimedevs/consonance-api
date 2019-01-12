@@ -26,3 +26,5 @@ steps:
     tasks: 'build'
 - script: docker build -f Dockerfile -t $(imageName) .
   displayName: 'docker build'
+- task: PublishBuildArtifacts@1
+
