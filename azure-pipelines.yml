@@ -26,5 +26,13 @@ steps:
     tasks: 'build'
 - script: docker build -f Dockerfile -t $(imageName) .
   displayName: 'docker build'
-- task: PublishBuildArtifacts@1
 
+- task: CopyFiles@2
+  inputs:
+    contents: '**/consonance*.jar'
+    targetFolder: '$(build.artifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    artifactName: 'jars'
+    pathToPublish: '$(build.artifactStagingDirectory)'
