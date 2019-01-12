@@ -13,5 +13,16 @@ variables:
   imageName: 'consonance:$(build.buildId)'
 
 steps:
+- task: Gradle@2
+  inputs:
+    workingDirectory: ''
+    gradleWrapperFile: 'gradlew'
+    gradleOptions: '-Xmx3072m'
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: '1.11'
+    jdkArchitectureOption: 'x64'
+    publishJUnitResults: false
+    testResultsFiles: '**/TEST-*.xml'
+    tasks: 'build'
 - script: docker build -f Dockerfile -t $(imageName) .
   displayName: 'docker build'
