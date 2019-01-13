@@ -24,20 +24,28 @@ steps:
     publishJUnitResults: false
     testResultsFiles: '**/TEST-*.xml'
     tasks: 'build'
-- script: docker build -f Dockerfile -t $(imageName) .
-  displayName: 'docker build'
 
 - task: CopyFiles@2
   inputs:
     contents: '**/consonance*.jar'
     targetFolder: '$(build.artifactStagingDirectory)'
 
-- task: PublishBuildArtifacts@1
+- task: Docker@0
+  displayName: 'Build an image'
   inputs:
-    artifactName: 'jars'
-    pathToPublish: '$(build.artifactStagingDirectory)'
+    azureSubscription: 'Free Trial (36667a1f-4c7f-4e5a-9c1d-5c641de0dc1f)'
 
-- script: |
-    docker build -t $(dockerId).azurecr.io/$(imageName) .
-    docker login -u $(dockerId) -p $(pswd) $(dockerId).azurecr.io
-    docker push $(dockerId).azurecr.io/$(imageName)
+    azureContainerRegistry: '{"loginServer":"sparetimecontainers.azurecr.io", "id" : "/subscriptions/36667a1f-4c7f-4e5a-9c1d-5c641de0dc1f/resourceGroups/sparetimedevs_resource_groups/providers/Microsoft.ContainerRegistry/registries/sparetimecontainers"}'
+
+    includeLatestTag: true
+
+- task: Docker@0
+  displayName: 'Push an image'
+  inputs:
+    azureSubscription: 'Free Trial (36667a1f-4c7f-4e5a-9c1d-5c641de0dc1f)'
+
+    azureContainerRegistry: sparetimecontainers.azurecr.io
+
+    action: 'Push an image'
+
+
