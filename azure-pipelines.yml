@@ -24,7 +24,7 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    contents: build\libs\**.jar
+    contents: ./build/libs/consonance-api.jar
     targetFolder: $(Build.ArtifactStagingDirectory)
 
 - task: PublishBuildArtifacts@1
