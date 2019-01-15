@@ -22,6 +22,12 @@ steps:
     testResultsFiles: '**/TEST-*.xml'
     tasks: 'build'
 
+- task: CopyFiles@2
+  inputs:
+    contents: build\libs\**.jar
+    targetFolder: $(Build.ArtifactStagingDirectory)
+
 - task: PublishBuildArtifacts@1
   inputs:
-    pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
+    pathtoPublish: $(Build.ArtifactStagingDirectory)
+    artifactName: MyBuildOutputs
