@@ -62,7 +62,7 @@ fun Application.module() {
 
 fun main() {
     Dependency.load()
-    embeddedServer(Netty, 8080, watchPaths = listOf("AppKt"), module = Application::module).start()
+    embeddedServer(Netty, 80, watchPaths = listOf("AppKt"), module = Application::module).start()
     data()
 }
 
