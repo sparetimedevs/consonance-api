@@ -2,7 +2,7 @@ package com.sparetimedevs.consonance.config
 
 import java.io.File
 import java.io.FileInputStream
-import java.util.Properties
+import java.util.*
 
 private const val USER_DIR = "user.dir"
 private const val USER_HOME = "user.home"
@@ -24,7 +24,6 @@ object MongodbConfiguration {
     fun load(): String {
         readConfigFromProject()
         //TODO should make this also load values from readConfigFromUserHome() and override values when present in the user home config.
-
         return getMongodbConnectionString()
     }
 

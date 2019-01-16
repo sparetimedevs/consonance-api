@@ -10,7 +10,6 @@ import org.koin.standalone.StandAloneContext.startKoin
 import org.koin.standalone.inject
 
 private val serviceModule = module {
-    //    single { FooImpl() as Foo }
     single { Mongodb() }
     single { UserRepository(get<Mongodb>().database) }
     single { ScoreRepository(get<Mongodb>().database) }
@@ -19,8 +18,6 @@ private val serviceModule = module {
 
 internal object Dependency : KoinComponent {
     fun load() = startKoin(listOf(serviceModule))
-
-    //    val foo by inject<Foo>()
     val mongodb by inject<Mongodb>()
     val userRepository by inject<UserRepository>()
     val scoreRepository by inject<ScoreRepository>()
