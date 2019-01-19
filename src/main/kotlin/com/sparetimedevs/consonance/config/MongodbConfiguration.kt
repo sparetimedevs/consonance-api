@@ -12,6 +12,7 @@ private const val MONGODB_CONFIG_PASSWORD = "mongodb.config.password"
 private const val MONGODB_CONFIG_HOST = "mongodb.config.host"
 private const val MONGODB_CONFIG_PORT = "mongodb.config.port"
 private const val MONGODB_CONFIG_AUTHSOURCE = "mongodb.config.authsource"
+private const val MONGODB_CONFIG_DBNAME = "mongo.config.dbname"
 
 object MongodbConfiguration {
 
@@ -54,6 +55,10 @@ object MongodbConfiguration {
 
     private fun getMongodbConfigPort(): String {
         return properties.getProperty(MONGODB_CONFIG_PORT)
+    }
+
+    fun getMongodbDatabaseName(): String {
+        return properties.getProperty(MONGODB_CONFIG_DBNAME)
     }
 
     private fun getMongodbConfigAuthSource(): String {

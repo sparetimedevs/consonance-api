@@ -63,8 +63,9 @@ fun Application.module() {
 }
 
 fun main() {
+    val port = Integer.valueOf(System.getenv("PORT"))
     Dependency.load()
-    embeddedServer(Netty, 8080, watchPaths = listOf("AppKt"), module = Application::module).start()
+    embeddedServer(Netty, port, watchPaths = listOf("AppKt"), module = Application::module).start()
     data()
 }
 

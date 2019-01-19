@@ -2,5 +2,5 @@
     "name": "Consonance heroku app",
     "description": "",
     "image": "heroku/java",
-    "addons": [ "heroku-mongodb" ]
+    "addons": [ "heroku-mongolab" ]
   }
