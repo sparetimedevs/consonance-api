@@ -76,7 +76,7 @@ tasks.withType<ShadowJar> {
 }
 
 task("stage") {
-    dependsOn("clean", "build")
+    dependsOn("clean", "build", "shadowJar")
 }
 
 apply {
