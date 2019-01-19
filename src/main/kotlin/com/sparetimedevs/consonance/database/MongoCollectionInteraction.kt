@@ -4,12 +4,14 @@ import com.mongodb.client.model.Filters
 import com.mongodb.reactivestreams.client.MongoCollection
 import com.mongodb.reactivestreams.client.Success.SUCCESS
 import com.sparetimedevs.consonance.api.NotFound
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.toCollection
 import kotlinx.coroutines.reactive.awaitFirstOrNull
 import kotlinx.coroutines.reactive.openSubscription
 import org.bson.conversions.Bson
 import org.bson.types.ObjectId
 
+@UseExperimental(ObsoleteCoroutinesApi::class)
 suspend inline fun <T : Any> MongoCollection<T>.getAll(): ArrayList<T> =
     this.find().openSubscription().toCollection(ArrayList())
 

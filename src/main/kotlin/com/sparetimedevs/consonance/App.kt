@@ -29,6 +29,8 @@ import java.util.concurrent.TimeUnit
 fun Application.module() {
 
     val logger = this.log
+    Dependency.load()
+
     install(DefaultHeaders)
     install(CallLogging)
     install(Compression)
@@ -62,7 +64,7 @@ fun Application.module() {
 
 fun main() {
     Dependency.load()
-    embeddedServer(Netty, 80, watchPaths = listOf("AppKt"), module = Application::module).start()
+    embeddedServer(Netty, 8080, watchPaths = listOf("AppKt"), module = Application::module).start()
     data()
 }
 

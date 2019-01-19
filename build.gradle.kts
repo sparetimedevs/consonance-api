@@ -75,11 +75,14 @@ tasks.withType<ShadowJar> {
     version = ""
 }
 
+task("stage") {
+    dependsOn("clean", "build")
+}
+
 apply {
     plugin("com.github.johnrengelman.shadow")
     plugin("application")
 }
-
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
