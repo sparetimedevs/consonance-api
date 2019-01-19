@@ -35,12 +35,12 @@ fun Application.module() {
     install(CallLogging)
     install(Compression)
     install(WebSockets)
-    install(Metrics) {
-        Slf4jReporter.forRegistry(registry)
-            .outputTo(log)
-            .build()
-            .start(10, TimeUnit.SECONDS)
-    }
+//    install(Metrics) {
+//        Slf4jReporter.forRegistry(registry)
+//            .outputTo(log)
+//            .build()
+//            .start(10, TimeUnit.SECONDS)
+//    }
     install(Routing) {
         api(
             Dependency.scoreRepository,
