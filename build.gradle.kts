@@ -14,7 +14,7 @@ val assertJVersion: String by project
 val mongodbDriverSyncVersion: String by project
 
 application {
-    mainClassName = "io.ktor.server.netty.DevelopmentEngine"
+    mainClassName = "io.ktor.server.netty.EngineMain"
 }
 
 plugins {
@@ -54,7 +54,7 @@ dependencies {
     compile("ch.qos.logback:logback-classic:$logbackVersion")
     compile("org.slf4j:slf4j-api:$slf4jVersion")
     compile("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
-    compile("org.koin:koin-core:$koinVersion")
+    compile("org.koin:koin-ktor:$koinVersion")
     compile("org.mongodb:mongodb-driver-reactivestreams:$mongodbDriverReactiveStreamVersion")
 
     testCompile(kotlin("kotlin-test-junit"))
