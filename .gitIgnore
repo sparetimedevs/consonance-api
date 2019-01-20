@@ -27,3 +27,7 @@
 
 .DS_Store
 /mongodb/data/
+config.properties
+
+### HEROKU ###
+.env

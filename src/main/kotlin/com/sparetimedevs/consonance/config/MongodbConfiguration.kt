@@ -7,12 +7,12 @@ import java.util.*
 private const val USER_DIR = "user.dir"
 private const val USER_HOME = "user.home"
 
-private const val MONGODB_CONFIG_USERNAME = "mongodb.config.username"
-private const val MONGODB_CONFIG_PASSWORD = "mongodb.config.password"
-private const val MONGODB_CONFIG_HOST = "mongodb.config.host"
-private const val MONGODB_CONFIG_PORT = "mongodb.config.port"
-private const val MONGODB_CONFIG_AUTHSOURCE = "mongodb.config.authsource"
-private const val MONGODB_CONFIG_DBNAME = "mongo.config.dbname"
+private const val DB_USERNAME = "mongodb.config.username"
+private const val DB_PASSWORD = "mongodb.config.password"
+private const val DB_HOST = "mongodb.config.host"
+private const val DB_PORT = "mongodb.config.port"
+private const val DB_AUTH_SOURCE = "mongodb.config.authsource"
+private const val DB_NAME = "mongo.config.dbname"
 
 object MongodbConfiguration {
 
@@ -42,27 +42,27 @@ object MongodbConfiguration {
     }
 
     private fun getMongodbConfigUsername(): String {
-        return properties.getProperty(MONGODB_CONFIG_USERNAME)
+        return System.getenv(DB_USERNAME)
     }
 
     private fun getMongodbConfigPassword(): String {
-        return properties.getProperty(MONGODB_CONFIG_PASSWORD)
+        return System.getenv(DB_PASSWORD)
     }
 
     private fun getMongodbConfigHost(): String {
-        return properties.getProperty(MONGODB_CONFIG_HOST)
-    }
-
-    private fun getMongodbConfigPort(): String {
-        return properties.getProperty(MONGODB_CONFIG_PORT)
+        return System.getenv(DB_HOST)
     }
 
     fun getMongodbDatabaseName(): String {
-        return properties.getProperty(MONGODB_CONFIG_DBNAME)
+        return System.getenv(DB_NAME)
+    }
+
+    private fun getMongodbConfigPort(): String {
+        return System.getenv(DB_PORT)
     }
 
     private fun getMongodbConfigAuthSource(): String {
-        return properties.getProperty(MONGODB_CONFIG_AUTHSOURCE)
+        return System.getenv(DB_AUTH_SOURCE)
     }
 
     private fun getMongodbConnectionString(): String {
