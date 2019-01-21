@@ -29,16 +29,18 @@ import java.util.concurrent.TimeUnit
 fun Application.module() {
 
     val logger = this.log
+    Dependency.load()
+
     install(DefaultHeaders)
     install(CallLogging)
     install(Compression)
     install(WebSockets)
-    install(Metrics) {
-        Slf4jReporter.forRegistry(registry)
-            .outputTo(log)
-            .build()
-            .start(10, TimeUnit.SECONDS)
-    }
+//    install(Metrics) {
+//        Slf4jReporter.forRegistry(registry)
+//            .outputTo(log)
+//            .build()
+//            .start(10, TimeUnit.SECONDS)
+//    }
     install(Routing) {
         api(
             Dependency.scoreRepository,
@@ -61,8 +63,9 @@ fun Application.module() {
 }
 
 fun main() {
+    val port = Integer.valueOf(System.getenv("PORT"))
     Dependency.load()
-    embeddedServer(Netty, 8080, watchPaths = listOf("AppKt"), module = Application::module).start()
+    embeddedServer(Netty, port, watchPaths = listOf("AppKt"), module = Application::module).start()
     data()
 }
 

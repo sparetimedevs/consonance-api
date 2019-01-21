@@ -24,5 +24,5 @@ class Mongodb {
         .codecRegistry(pojoCodecRegistry)
         .build()
     private val client = MongoClients.create(settings)
-    val database = client.getDatabase("consonance")
+    val database = client.getDatabase( MongodbConfiguration.getMongodbDatabaseName())
 }
