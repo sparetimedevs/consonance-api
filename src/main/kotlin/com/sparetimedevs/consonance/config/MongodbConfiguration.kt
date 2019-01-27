@@ -1,72 +1,45 @@
 package com.sparetimedevs.consonance.config
 
-import java.io.File
-import java.io.FileInputStream
-import java.util.*
-
-private const val USER_DIR = "user.dir"
-private const val USER_HOME = "user.home"
-
 private const val DB_USERNAME = "mongodb.config.username"
 private const val DB_PASSWORD = "mongodb.config.password"
 private const val DB_HOST = "mongodb.config.host"
 private const val DB_PORT = "mongodb.config.port"
 private const val DB_AUTH_SOURCE = "mongodb.config.authsource"
-private const val DB_NAME = "mongo.config.dbname"
+private const val DB_NAME = "mongodb.config.dbname"
+private const val AUTH_SOURCE = "authSource"
+private const val MONGO_DB = "mongodb"
+
 
 object MongodbConfiguration {
 
-    private val properties = Properties()
-    private val pathFromUserDir = "${File.separator}src${File.separator}main${File.separator}resources${File.separator}config.properties"
-    private val pathFromUserHome = "${File.separator}.con${File.separator}config${File.separator}config.properties"
-    private val configFileFromProject = System.getProperty(USER_DIR) + pathFromUserDir
-    private val configFileFromUserHome = System.getProperty(USER_HOME) + pathFromUserHome
+    private val dotenv = EnvConfig.dotenv
 
-    fun load(): String {
-        readConfigFromProject()
-        //TODO should make this also load values from readConfigFromUserHome() and override values when present in the user home config.
-        return getMongodbConnectionString()
+    fun getDbName(): String {
+        return dotenv[DB_NAME] ?: ""
     }
 
-    private fun readConfigFromProject() {
-        readConfig(configFileFromProject)
+    private fun getDbUsername(): String {
+        return dotenv[DB_USERNAME] ?: ""
     }
 
-    private fun readConfigFromUserHome() {
-        readConfig(configFileFromUserHome)
+    private fun getDbPassword(): String {
+        return dotenv[DB_PASSWORD] ?: ""
     }
 
-    private fun readConfig(configFile: String) {
-        val inputStream = FileInputStream(configFile)
-        properties.load(inputStream)
+    private fun getDbHost(): String {
+        return dotenv[DB_HOST] ?: ""
     }
 
-    private fun getMongodbConfigUsername(): String {
-        return System.getenv(DB_USERNAME)
+    private fun getDbPort(): String {
+        return dotenv[DB_PORT] ?: ""
     }
 
-    private fun getMongodbConfigPassword(): String {
-        return System.getenv(DB_PASSWORD)
+    private fun getDbAuthSource(): String {
+        return dotenv[DB_AUTH_SOURCE] ?: ""
     }
 
-    private fun getMongodbConfigHost(): String {
-        return System.getenv(DB_HOST)
+    fun getDbConnectionUrl(): String {
+        return "$MONGO_DB://${getDbUsername()}:${getDbPassword()}@${getDbHost()}:${getDbPort()}/?$AUTH_SOURCE=${getDbAuthSource()}"
     }
 
-    fun getMongodbDatabaseName(): String {
-        return System.getenv(DB_NAME)
-    }
-
-    private fun getMongodbConfigPort(): String {
-        return System.getenv(DB_PORT)
-    }
-
-    private fun getMongodbConfigAuthSource(): String {
-        return System.getenv(DB_AUTH_SOURCE)
-    }
-
-    private fun getMongodbConnectionString(): String {
-        return "mongodb://${getMongodbConfigUsername()}:${getMongodbConfigPassword()}" +
-                "@${getMongodbConfigHost()}:${getMongodbConfigPort()}/?authSource=${getMongodbConfigAuthSource()}"
-    }
 }

@@ -20,9 +20,9 @@ class Mongodb {
     private val pojoCodecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),
         fromProviders(PojoCodecProvider.builder().automatic(true).build()))
     private val settings = MongoClientSettings.builder()
-        .applyConnectionString(ConnectionString(MongodbConfiguration.load()))
+        .applyConnectionString(ConnectionString(MongodbConfiguration.getDbConnectionUrl()))
         .codecRegistry(pojoCodecRegistry)
         .build()
     private val client = MongoClients.create(settings)
-    val database = client.getDatabase( MongodbConfiguration.getMongodbDatabaseName())
+    val database: MongoDatabase = client.getDatabase(MongodbConfiguration.getDbName())
 }

@@ -2,11 +2,11 @@ package integrationtest.mongodb.driver
 
 import com.mongodb.client.MongoClients
 import com.mongodb.client.MongoCollection
+import com.sparetimedevs.consonance.config.MongodbConfiguration
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import com.sparetimedevs.consonance.config.MongodbConfiguration
 import org.bson.Document
 
 class SyncMongodbDriver : MongodbDriver {
@@ -14,7 +14,7 @@ class SyncMongodbDriver : MongodbDriver {
     private val collection: MongoCollection<Document>
 
     init {
-        val mongoClient = MongoClients.create(MongodbConfiguration.load())
+        val mongoClient = MongoClients.create(MongodbConfiguration.getDbConnectionUrl())
 
         // get handle to "mydb" database
         val database = mongoClient.getDatabase("mydb")

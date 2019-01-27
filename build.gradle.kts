@@ -1,5 +1,5 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val kotlinVersion: String by project
 val ktorVersion: String by project
@@ -56,6 +56,7 @@ dependencies {
     compile("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
     compile("org.koin:koin-ktor:$koinVersion")
     compile("org.mongodb:mongodb-driver-reactivestreams:$mongodbDriverReactiveStreamVersion")
+    compile("io.github.cdimascio:java-dotenv:3.1.7")
 
     testCompile(kotlin("kotlin-test-junit"))
     testCompile(kotlin("kotlin-test"))
