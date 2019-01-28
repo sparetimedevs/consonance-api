@@ -9,8 +9,8 @@ services:
     environment:
       MONGO_DATA_DIR: /data/db
       MONGO_LOG_DIR: /dev/null
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_ROOT_USERNAME: sparetimedev
+      MONGO_INITDB_ROOT_PASSWORD: AHjGgfK7GYbkmd6XCQ
     volumes:
       - ./data/db:/data/db
     ports:

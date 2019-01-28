@@ -1,6 +1,5 @@
 package com.sparetimedevs.consonance
 
-import com.codahale.metrics.Slf4jReporter
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.sparetimedevs.consonance.api.api
@@ -16,7 +15,6 @@ import io.ktor.features.ContentNegotiation
 import io.ktor.features.DefaultHeaders
 import io.ktor.features.StatusPages
 import io.ktor.jackson.jackson
-import io.ktor.metrics.Metrics
 import io.ktor.routing.Routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
@@ -24,7 +22,6 @@ import io.ktor.websocket.WebSockets
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.bson.types.ObjectId
-import java.util.concurrent.TimeUnit
 
 fun Application.module() {
 
@@ -35,12 +32,6 @@ fun Application.module() {
     install(CallLogging)
     install(Compression)
     install(WebSockets)
-//    install(Metrics) {
-//        Slf4jReporter.forRegistry(registry)
-//            .outputTo(log)
-//            .build()
-//            .start(10, TimeUnit.SECONDS)
-//    }
     install(Routing) {
         api(
             Dependency.scoreRepository,
@@ -63,13 +54,11 @@ fun Application.module() {
 }
 
 fun main() {
-    val port = Integer.valueOf(System.getenv("PORT"))
-    Dependency.load()
-    embeddedServer(Netty, port, watchPaths = listOf("AppKt"), module = Application::module).start()
-    data()
+    embeddedServer(Netty, 8080, watchPaths = listOf("AppKt"), module = Application::module).start()
+    initData()
 }
 
-private fun data() {
+fun initData() {
     GlobalScope.launch {
         val dataInitialiser = DataInitialiser(
             Dependency.userRepository,

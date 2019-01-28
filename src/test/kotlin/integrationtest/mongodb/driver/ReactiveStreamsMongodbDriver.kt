@@ -3,11 +3,11 @@ package integrationtest.mongodb.driver
 import com.mongodb.reactivestreams.client.MongoClients
 import com.mongodb.reactivestreams.client.MongoCollection
 import com.mongodb.reactivestreams.client.Success
+import com.sparetimedevs.consonance.config.MongodbConfiguration
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import com.sparetimedevs.consonance.config.MongodbConfiguration
 import org.bson.Document
 
 class ReactiveStreamsMongodbDriver : MongodbDriver {
@@ -15,7 +15,7 @@ class ReactiveStreamsMongodbDriver : MongodbDriver {
     private val collection: MongoCollection<Document>
 
     init {
-        val mongoClient = MongoClients.create(MongodbConfiguration.load())
+        val mongoClient = MongoClients.create(MongodbConfiguration.getDbConnectionUrl())
 
         // get handle to "mydb" database
         val database = mongoClient.getDatabase("mydb")
