@@ -2,12 +2,13 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val kotlinVersion: String by project
+val kotlinxVersion: String by project
 val ktorVersion: String by project
+val sparetimedevsVersion: String by project
 val logbackVersion: String by project
 val slf4jVersion: String by project
 val koinVersion: String by project
-val mongodbDriverReactiveStreamVersion: String by project
-val kotlinxVersion: String by project
+val javaDotEnvVersion: String by project
 val junitVersion: String by project
 val restAssuredVersion: String by project
 val assertJVersion: String by project
@@ -36,11 +37,15 @@ repositories {
 }
 
 dependencies {
-    fun kotlin(artifact: String = "") = "org.jetbrains.kotlin:$artifact:$kotlinVersion"
-    fun kotlinx(artifact: String = "") = "org.jetbrains.kotlinx:$artifact:$kotlinxVersion"
-    fun ktor(artifact: String = "") = "io.ktor:$artifact:$ktorVersion"
+    fun kotlin(artifact: String) = "org.jetbrains.kotlin:$artifact:$kotlinVersion"
+    fun kotlinx(artifact: String) = "org.jetbrains.kotlinx:$artifact:$kotlinxVersion"
+    fun ktor(artifact: String) = "io.ktor:$artifact:$ktorVersion"
+    fun sparetimedevs(artifact: String) = "com.sparetimedevs:$artifact:$sparetimedevsVersion"
 
     compile(kotlin("kotlin-stdlib-jdk8"))
+
+    compile(kotlinx("kotlinx-coroutines-core"))
+    compile(kotlinx("kotlinx-coroutines-reactive"))
 
     compile(ktor("ktor-server-netty"))
     compile(ktor("ktor-html-builder"))
@@ -48,15 +53,12 @@ dependencies {
     compile(ktor("ktor-websockets"))
     compile(ktor("ktor-metrics"))
 
-    compile(kotlinx("kotlinx-coroutines-core"))
-    compile(kotlinx("kotlinx-coroutines-reactive"))
+    compile(sparetimedevs("suspendmongo"))
 
     compile("ch.qos.logback:logback-classic:$logbackVersion")
     compile("org.slf4j:slf4j-api:$slf4jVersion")
-    compile("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
     compile("org.koin:koin-ktor:$koinVersion")
-    compile("org.mongodb:mongodb-driver-reactivestreams:$mongodbDriverReactiveStreamVersion")
-    compile("io.github.cdimascio:java-dotenv:3.1.7")
+    compile("io.github.cdimascio:java-dotenv:$javaDotEnvVersion")
 
     testCompile(kotlin("kotlin-test-junit"))
     testCompile(kotlin("kotlin-test"))
