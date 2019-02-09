@@ -1,23 +1,23 @@
 package com.sparetimedevs.consonance.repository
 
-import com.mongodb.reactivestreams.client.MongoDatabase
-import com.sparetimedevs.consonance.database.deleteAll
-import com.sparetimedevs.consonance.database.deleteOneById
-import com.sparetimedevs.consonance.database.getAll
-import com.sparetimedevs.consonance.database.getCollection
-import com.sparetimedevs.consonance.database.getOneById
-import com.sparetimedevs.consonance.database.save
-import com.sparetimedevs.consonance.database.update
 import com.sparetimedevs.consonance.model.User
+import com.sparetimedevs.suspendmongo.Database
+import com.sparetimedevs.suspendmongo.deleteAll
+import com.sparetimedevs.suspendmongo.deleteOneById
+import com.sparetimedevs.suspendmongo.getAll
+import com.sparetimedevs.suspendmongo.getCollection
+import com.sparetimedevs.suspendmongo.getOneById
+import com.sparetimedevs.suspendmongo.save
+import com.sparetimedevs.suspendmongo.update
 import org.bson.types.ObjectId
 
-class UserRepository(mongoDatabase : MongoDatabase) {
+class UserRepository(database: Database) {
 
-    private val collection = mongoDatabase.getCollection<User>()
+    private val collection = getCollection<User>(database)
 
     suspend fun findAll() = collection.getAll()
 
-    suspend fun findOneById(id: ObjectId) : User = collection.getOneById(id)
+    suspend fun findOneById(id: ObjectId): User = collection.getOneById(id)
 
     suspend fun deleteAll() = collection.deleteAll()
 
