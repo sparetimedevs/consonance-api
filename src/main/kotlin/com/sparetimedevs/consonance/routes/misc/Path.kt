@@ -1,4 +1,4 @@
-package com.sparetimedevs.consonance.api.handlers
+package com.sparetimedevs.consonance.routes.misc
 
 import org.bson.types.ObjectId
 

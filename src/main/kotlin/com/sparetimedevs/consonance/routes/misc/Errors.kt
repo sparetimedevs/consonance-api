@@ -1,11 +1,9 @@
-package com.sparetimedevs.consonance.api
+package com.sparetimedevs.consonance.routes.misc
 
 import io.ktor.application.call
 import io.ktor.features.StatusPages
 import io.ktor.http.HttpStatusCode
 import io.ktor.response.respond
-import io.ktor.util.error
-import org.slf4j.Logger
 
 class ServiceUnavailable : Throwable()
 class BadRequest : Throwable()
@@ -13,7 +11,7 @@ class Unauthorized : Throwable()
 class NotFound(message: String) : RuntimeException(message)
 class MultipleFound(message: String) : RuntimeException(message)
 
-fun StatusPages.Configuration.errorHandling(log: Logger) {
+fun StatusPages.Configuration.errorHandling() {
 
     exception<ServiceUnavailable> {
         call.respond(HttpStatusCode.ServiceUnavailable)
@@ -30,8 +28,7 @@ fun StatusPages.Configuration.errorHandling(log: Logger) {
     exception<MultipleFound> {
         call.respond(HttpStatusCode.BadRequest)
     }
-    exception<Throwable> { cause ->
-        log.error(cause)
+    exception<Throwable> {
         call.respond(HttpStatusCode.InternalServerError)
     }
 }

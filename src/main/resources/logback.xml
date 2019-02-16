@@ -7,8 +7,7 @@
 
     <root level="TRACE">
         <appender-ref ref="STDOUT"/>
-    </root>
-
+    </root>ß
 
     <logger name="org.mongodb.driver" level="INFO"/>
     <logger name="org.eclipse.jetty" level="INFO"/>

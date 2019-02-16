@@ -9,6 +9,7 @@ import com.sparetimedevs.suspendmongo.getCollection
 import com.sparetimedevs.suspendmongo.getOneById
 import com.sparetimedevs.suspendmongo.save
 import com.sparetimedevs.suspendmongo.update
+import io.ktor.auth.UserPasswordCredential
 import org.bson.types.ObjectId
 
 class UserRepository(database: Database) {
@@ -26,4 +27,8 @@ class UserRepository(database: Database) {
     suspend fun save(user: User) = collection.save(user)
 
     suspend fun update(id: ObjectId, user: User) = collection.update(id, user)
+
+    suspend fun findUserByCredentials(credential: UserPasswordCredential): User? {
+        return findAll().firstOrNull { it.encryptedPassword == credential.password && it.firstName == credential.name }
+    }
 }
