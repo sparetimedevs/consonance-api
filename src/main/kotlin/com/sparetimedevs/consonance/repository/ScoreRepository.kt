@@ -17,7 +17,7 @@ class ScoreRepository(database: Database) {
 
     suspend fun findAll() = collection.getAll()
 
-    suspend fun findOneById(id: ObjectId): Score = collection.getOneById(id)
+    suspend fun findOneById(id: ObjectId) = collection.getOneById(id)
 
     suspend fun deleteAll() = collection.deleteAll()
 

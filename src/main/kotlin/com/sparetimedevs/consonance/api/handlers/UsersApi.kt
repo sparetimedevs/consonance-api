@@ -2,6 +2,7 @@ package com.sparetimedevs.consonance.api.handlers
 
 import com.sparetimedevs.consonance.model.User
 import com.sparetimedevs.consonance.repository.UserRepository
+import com.sparetimedevs.suspendmongo.result.Error
 import io.ktor.application.call
 import io.ktor.http.HttpStatusCode
 import io.ktor.request.receive
@@ -18,27 +19,51 @@ const val USERS_PATH = "/users"
 fun Routing.apiUsers(repository: UserRepository, log: Logger) {
 
     get(USERS_PATH) {
-        call.respond(HttpStatusCode.OK, repository.findAll())
+        repository.findAll().fold(
+            { call.respond(HttpStatusCode.InternalServerError) }, //TODO think about wrong flows.
+            { call.respond(HttpStatusCode.OK, it) }
+        )
     }
 
     get("$USERS_PATH$ID_PATH_PARAM") {
-        call.respond(HttpStatusCode.OK, repository.findOneById(call.parameters[ID]?.toObjectId()!!))
+        repository.findOneById(call.parameters[ID]?.toObjectId()!!).fold(
+            {
+                when (it) {
+                    is Error.EntityNotFound -> call.respond(HttpStatusCode.NotFound)
+                    is Error.ServiceUnavailable -> call.respond(HttpStatusCode.ServiceUnavailable)
+                    is Error.UnknownError -> call.respond(HttpStatusCode.InternalServerError)
+                }
+            },
+            { call.respond(HttpStatusCode.OK, it) }
+        )
     }
 
     post(USERS_PATH) {
         val user = call.receive<User>()
-        if (repository.save(user)) call.respond(HttpStatusCode.Created)
-        else call.respond(HttpStatusCode.NotFound)
+        repository.save(user).fold(
+            { call.respond(HttpStatusCode.InternalServerError) }, //TODO think about wrong flows.
+            { call.respond(HttpStatusCode.Created) }
+        )
     }
 
     put("$USERS_PATH$ID_PATH_PARAM") {
         val user = call.receive<User>()
-        if (repository.update(call.parameters[ID]?.toObjectId()!!, user)) call.respond(HttpStatusCode.NoContent)
-        else call.respond(HttpStatusCode.NotFound)
+        repository.update(call.parameters[ID]?.toObjectId()!!, user).fold(
+            {
+                when (it) {
+                    is Error.EntityNotFound -> call.respond(HttpStatusCode.NotFound)
+                    is Error.ServiceUnavailable -> call.respond(HttpStatusCode.ServiceUnavailable)
+                    is Error.UnknownError -> call.respond(HttpStatusCode.InternalServerError)
+                }
+            },
+            { call.respond(HttpStatusCode.NoContent) }
+        )
     }
 
     delete("$USERS_PATH$ID_PATH_PARAM") {
-        repository.deleteOneById(call.parameters[ID]?.toObjectId()!!)
-        call.respond(HttpStatusCode.NoContent)
+        repository.deleteOneById(call.parameters[ID]?.toObjectId()!!).fold(
+            { call.respond(HttpStatusCode.InternalServerError) }, //TODO think about wrong flows.
+            { call.respond(HttpStatusCode.NoContent) }
+        )
     }
 }

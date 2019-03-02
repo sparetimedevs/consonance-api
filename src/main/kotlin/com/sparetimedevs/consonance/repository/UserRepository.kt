@@ -17,7 +17,7 @@ class UserRepository(database: Database) {
 
     suspend fun findAll() = collection.getAll()
 
-    suspend fun findOneById(id: ObjectId): User = collection.getOneById(id)
+    suspend fun findOneById(id: ObjectId) = collection.getOneById(id)
 
     suspend fun deleteAll() = collection.deleteAll()
 
