@@ -3,6 +3,7 @@ package com.sparetimedevs.consonance.api.handlers
 import com.sparetimedevs.consonance.model.User
 import com.sparetimedevs.consonance.repository.UserRepository
 import com.sparetimedevs.suspendmongo.result.Error
+import com.sparetimedevs.suspendmongo.result.fold
 import io.ktor.application.call
 import io.ktor.http.HttpStatusCode
 import io.ktor.request.receive
