@@ -64,14 +64,14 @@ dependencies {
     implementation("com.auth0:java-jwt:$auth0JwtVersion")
     implementation("io.github.microutils:kotlin-logging:$kotlinLoggingVersion")
 
-    testCompile(kotlin("kotlin-test-junit"))
-    testCompile(kotlin("kotlin-test"))
-    testCompile(ktor("ktor-server-test-host"))
-    testCompile("org.assertj:assertj-core:$assertJVersion")
-    testCompile("io.rest-assured:rest-assured:$restAssuredVersion")
-    testCompile("org.junit.jupiter:junit-jupiter-api:$junitVersion")
-    testCompile("org.koin:koin-test:$koinVersion")
-    testCompile("org.mongodb:mongodb-driver-sync:$mongodbDriverSyncVersion")
+    testImplementation(kotlin("kotlin-test-junit"))
+    testImplementation(kotlin("kotlin-test"))
+    testImplementation(ktor("ktor-server-test-host"))
+    testImplementation("org.assertj:assertj-core:$assertJVersion")
+    testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
+    testImplementation("org.koin:koin-test:$koinVersion")
+    testImplementation("org.mongodb:mongodb-driver-sync:$mongodbDriverSyncVersion")
 }
 
 tasks.withType<ShadowJar> {

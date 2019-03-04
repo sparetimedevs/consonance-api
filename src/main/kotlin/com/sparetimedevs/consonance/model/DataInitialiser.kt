@@ -5,10 +5,9 @@ import com.sparetimedevs.consonance.repository.ScoreRepository
 import com.sparetimedevs.consonance.repository.UserRepository
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.UUID
 
 class DataInitialiser(private val users: UserRepository, private val scores: ScoreRepository, private val composers: ComposerRepository) {
-
 
     suspend fun initData(): Unit = coroutineScope<Unit> {
 

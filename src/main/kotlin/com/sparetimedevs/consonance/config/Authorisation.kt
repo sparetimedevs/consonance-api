@@ -6,7 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm
 import com.sparetimedevs.consonance.model.User
 import io.ktor.auth.jwt.JWTAuthenticationProvider
 import io.ktor.auth.jwt.JWTPrincipal
-import java.util.*
+import java.util.Date
 
 data class Token (val token: String)
 
