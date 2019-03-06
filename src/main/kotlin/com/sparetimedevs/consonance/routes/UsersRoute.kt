@@ -4,6 +4,7 @@ import com.sparetimedevs.consonance.model.User
 import com.sparetimedevs.consonance.repository.UserRepository
 import com.sparetimedevs.consonance.routes.misc.ID
 import com.sparetimedevs.consonance.routes.misc.ID_PATH_PARAM
+import com.sparetimedevs.consonance.routes.misc.respondWithError
 import com.sparetimedevs.consonance.routes.misc.toObjectId
 import io.ktor.application.call
 import io.ktor.http.HttpStatusCode
@@ -14,10 +15,7 @@ import io.ktor.routing.delete
 import io.ktor.routing.get
 import io.ktor.routing.post
 import io.ktor.routing.put
-import mu.KotlinLogging
 import org.koin.ktor.ext.inject
-
-private val logger = KotlinLogging.logger {}
 
 const val USERS_PATH = "/users"
 
@@ -26,27 +24,39 @@ fun Route.userRoutes() {
     val userRepository: UserRepository by inject()
 
     get(USERS_PATH) {
-        call.respond(HttpStatusCode.OK, userRepository.findAll())
+        userRepository.findAll().fold(
+            { respondWithError(call, it) },
+            { call.respond(HttpStatusCode.OK, it) }
+        )
     }
 
     get("$USERS_PATH$ID_PATH_PARAM") {
-        call.respond(HttpStatusCode.OK, userRepository.findOneById(call.parameters[ID]?.toObjectId()!!))
+        userRepository.findOneById(call.parameters[ID]?.toObjectId()!!).fold(
+            { respondWithError(call, it) },
+            { call.respond(HttpStatusCode.OK, it) }
+        )
     }
 
     post(USERS_PATH) {
         val user = call.receive<User>()
-        if (userRepository.save(user)) call.respond(HttpStatusCode.Created)
-        else call.respond(HttpStatusCode.NotFound)
+        userRepository.save(user).fold(
+            { respondWithError(call, it) },
+            { call.respond(HttpStatusCode.Created) }
+        )
     }
 
     put("$USERS_PATH$ID_PATH_PARAM") {
         val user = call.receive<User>()
-        if (userRepository.update(call.parameters[ID]?.toObjectId()!!, user)) call.respond(HttpStatusCode.NoContent)
-        else call.respond(HttpStatusCode.NotFound)
+        userRepository.update(call.parameters[ID]?.toObjectId()!!, user).fold(
+            { respondWithError(call, it) },
+            { call.respond(HttpStatusCode.NoContent) }
+        )
     }
 
     delete("$USERS_PATH$ID_PATH_PARAM") {
-        userRepository.deleteOneById(call.parameters[ID]?.toObjectId()!!)
-        call.respond(HttpStatusCode.NoContent)
+        userRepository.deleteOneById(call.parameters[ID]?.toObjectId()!!).fold(
+            { respondWithError(call, it) },
+            { call.respond(HttpStatusCode.NoContent) }
+        )
     }
 }

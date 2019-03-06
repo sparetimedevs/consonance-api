@@ -4,6 +4,7 @@ import com.sparetimedevs.consonance.model.Score
 import com.sparetimedevs.consonance.repository.ScoreRepository
 import com.sparetimedevs.consonance.routes.misc.ID
 import com.sparetimedevs.consonance.routes.misc.ID_PATH_PARAM
+import com.sparetimedevs.consonance.routes.misc.respondWithError
 import com.sparetimedevs.consonance.routes.misc.toObjectId
 import io.ktor.application.call
 import io.ktor.http.HttpStatusCode
@@ -23,27 +24,39 @@ fun Route.scoreRoutes() {
     val scoreRepository: ScoreRepository by inject()
 
     get(SCORES_PATH) {
-        call.respond(HttpStatusCode.OK, scoreRepository.findAll())
+        scoreRepository.findAll().fold(
+            { respondWithError(call, it) },
+            { call.respond(HttpStatusCode.OK, it) }
+        )
     }
 
     get("$SCORES_PATH$ID_PATH_PARAM") {
-        call.respond(HttpStatusCode.OK, scoreRepository.findOneById(call.parameters[ID]?.toObjectId()!!))
+        scoreRepository.findOneById(call.parameters[ID]?.toObjectId()!!).fold(
+            { respondWithError(call, it) },
+            { call.respond(HttpStatusCode.OK, it) }
+        )
     }
 
     post(SCORES_PATH) {
         val score = call.receive<Score>()
-        if (scoreRepository.save(score)) call.respond(HttpStatusCode.Created)
-        else call.respond(HttpStatusCode.NotFound)
+        scoreRepository.save(score).fold(
+            { respondWithError(call, it) },
+            { call.respond(HttpStatusCode.Created) }
+        )
     }
 
     put("$SCORES_PATH$ID_PATH_PARAM") {
         val score = call.receive<Score>()
-        if (scoreRepository.update(call.parameters[ID]?.toObjectId()!!, score)) call.respond(HttpStatusCode.NoContent)
-        else call.respond(HttpStatusCode.NotFound)
+        scoreRepository.update(call.parameters[ID]?.toObjectId()!!, score).fold(
+            { respondWithError(call, it) },
+            { call.respond(HttpStatusCode.NoContent) }
+        )
     }
 
     delete("$SCORES_PATH$ID_PATH_PARAM") {
-        scoreRepository.deleteOneById(call.parameters[ID]?.toObjectId()!!)
-        call.respond(HttpStatusCode.NoContent)
+        scoreRepository.deleteOneById(call.parameters[ID]?.toObjectId()!!).fold(
+            { respondWithError(call, it) },
+            { call.respond(HttpStatusCode.NoContent) }
+        )
     }
 }
