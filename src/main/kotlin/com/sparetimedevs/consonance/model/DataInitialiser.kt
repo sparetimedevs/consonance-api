@@ -1,18 +1,15 @@
 package com.sparetimedevs.consonance.model
 
-import kotlinx.coroutines.coroutineScope
-import org.slf4j.LoggerFactory
 import com.sparetimedevs.consonance.repository.ComposerRepository
 import com.sparetimedevs.consonance.repository.ScoreRepository
 import com.sparetimedevs.consonance.repository.UserRepository
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import java.util.UUID
 
 class DataInitialiser(private val users: UserRepository, private val scores: ScoreRepository, private val composers: ComposerRepository) {
 
-    private val log = LoggerFactory.getLogger(DataInitialiser::class.java)
-
     suspend fun initData(): Unit = coroutineScope<Unit> {
-        log.info("Init data: ")
 
         users.deleteAll()
         composers.deleteAll()
@@ -23,7 +20,8 @@ class DataInitialiser(private val users: UserRepository, private val scores: Sco
                 User(
                     firstName = "Me",
                     lastName = "Is Cool",
-                    email = "me.iscool@stuff.com"
+                    email = "me.iscool@stuff.com",
+                    encryptedPassword = UUID.randomUUID().toString()
                 )
             )
         }

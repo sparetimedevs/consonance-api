@@ -13,6 +13,8 @@ val junitVersion: String by project
 val restAssuredVersion: String by project
 val assertJVersion: String by project
 val mongodbDriverSyncVersion: String by project
+val kotlinLoggingVersion: String by project
+val auth0JwtVersion: String by project
 
 application {
     mainClassName = "io.ktor.server.netty.EngineMain"
@@ -42,34 +44,34 @@ dependencies {
     fun ktor(artifact: String) = "io.ktor:$artifact:$ktorVersion"
     fun sparetimedevs(artifact: String) = "com.sparetimedevs:$artifact:$sparetimedevsVersion"
 
-    compile(kotlin("kotlin-stdlib-jdk8"))
+    implementation(kotlin("kotlin-stdlib-jdk8"))
+    implementation(kotlinx("kotlinx-coroutines-core"))
+    implementation(kotlinx("kotlinx-coroutines-reactive"))
+    implementation(ktor("ktor-server-netty"))
+    implementation(ktor("ktor-html-builder"))
+    implementation(ktor("ktor-jackson"))
+    implementation(ktor("ktor-websockets"))
+    implementation(ktor("ktor-metrics"))
+    implementation(ktor("ktor-locations"))
+    implementation(ktor("ktor-auth"))
+    implementation(ktor("ktor-auth-jwt"))
 
-    compile(kotlinx("kotlinx-coroutines-core"))
-    compile(kotlinx("kotlinx-coroutines-reactive"))
+    implementation(sparetimedevs("suspendmongo"))
+    implementation("ch.qos.logback:logback-classic:$logbackVersion")
+    implementation("org.slf4j:slf4j-api:$slf4jVersion")
+    implementation("org.koin:koin-ktor:$koinVersion")
+    implementation("io.github.cdimascio:java-dotenv:$javaDotEnvVersion")
+    implementation("com.auth0:java-jwt:$auth0JwtVersion")
+    implementation("io.github.microutils:kotlin-logging:$kotlinLoggingVersion")
 
-    compile(ktor("ktor-server-netty"))
-    compile(ktor("ktor-html-builder"))
-    compile(ktor("ktor-jackson"))
-    compile(ktor("ktor-websockets"))
-    compile(ktor("ktor-metrics"))
-
-    compile(sparetimedevs("suspendmongo"))
-
-    compile("ch.qos.logback:logback-classic:$logbackVersion")
-    compile("org.slf4j:slf4j-api:$slf4jVersion")
-    compile("org.koin:koin-ktor:$koinVersion")
-    compile("io.github.cdimascio:java-dotenv:$javaDotEnvVersion")
-
-    testCompile(kotlin("kotlin-test-junit"))
-    testCompile(kotlin("kotlin-test"))
-
-    testCompile(ktor("ktor-server-test-host"))
-
-    testCompile("org.assertj:assertj-core:$assertJVersion")
-    testCompile("io.rest-assured:rest-assured:$restAssuredVersion")
-    testCompile("org.junit.jupiter:junit-jupiter-api:$junitVersion")
-    testCompile("org.koin:koin-test:$koinVersion")
-    testCompile("org.mongodb:mongodb-driver-sync:$mongodbDriverSyncVersion")
+    testImplementation(kotlin("kotlin-test-junit"))
+    testImplementation(kotlin("kotlin-test"))
+    testImplementation(ktor("ktor-server-test-host"))
+    testImplementation("org.assertj:assertj-core:$assertJVersion")
+    testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
+    testImplementation("org.koin:koin-test:$koinVersion")
+    testImplementation("org.mongodb:mongodb-driver-sync:$mongodbDriverSyncVersion")
 }
 
 tasks.withType<ShadowJar> {

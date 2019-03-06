@@ -5,8 +5,6 @@ import org.bson.codecs.pojo.annotations.BsonId
 import org.bson.codecs.pojo.annotations.BsonProperty
 import org.bson.types.ObjectId
 
-data class Version(val value: String = "v1.0") //Default value just for example purposes.
-
 data class Score @BsonCreator constructor(
     @BsonId val id: ObjectId = ObjectId(),
     @BsonProperty("title") val title: String,
@@ -25,5 +23,6 @@ data class User @BsonCreator constructor(
     @BsonId val id: ObjectId = ObjectId(),
     @BsonProperty("firstName") val firstName: String,
     @BsonProperty("lastName") val lastName: String,
-    @BsonProperty("email") val email: String
+    @BsonProperty("email") val email: String,
+    @BsonProperty("encryptedPassword") val encryptedPassword: String
 )

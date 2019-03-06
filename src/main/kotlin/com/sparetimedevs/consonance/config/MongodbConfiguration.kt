@@ -9,7 +9,6 @@ private const val DB_NAME = "mongodb.config.dbname"
 private const val AUTH_SOURCE = "authSource"
 private const val MONGO_DB = "mongodb"
 
-
 object MongodbConfiguration {
 
     private val dotenv = EnvConfig.dotenv
