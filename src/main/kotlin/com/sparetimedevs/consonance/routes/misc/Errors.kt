@@ -1,9 +1,14 @@
 package com.sparetimedevs.consonance.routes.misc
 
+import com.sparetimedevs.suspendmongo.result.Error
+import io.ktor.application.ApplicationCall
 import io.ktor.application.call
 import io.ktor.features.StatusPages
 import io.ktor.http.HttpStatusCode
 import io.ktor.response.respond
+import mu.KotlinLogging
+
+private val logger = KotlinLogging.logger {}
 
 class ServiceUnavailable : Throwable()
 class BadRequest : Throwable()
@@ -30,5 +35,14 @@ fun StatusPages.Configuration.errorHandling() {
     }
     exception<Throwable> {
         call.respond(HttpStatusCode.InternalServerError)
+    }
+}
+
+suspend fun respondWithError(call: ApplicationCall, error: Error) {
+    logger.warn { "MongoDB error ${error::class.simpleName}: ${error.message}" }
+    when (error) {
+        is Error.EntityNotFound -> call.respond(HttpStatusCode.NotFound)
+        is Error.ServiceUnavailable -> call.respond(HttpStatusCode.ServiceUnavailable)
+        is Error.UnknownError -> call.respond(HttpStatusCode.InternalServerError)
     }
 }

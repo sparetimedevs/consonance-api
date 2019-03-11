@@ -9,6 +9,7 @@ val logbackVersion: String by project
 val slf4jVersion: String by project
 val koinVersion: String by project
 val javaDotEnvVersion: String by project
+val arrowVersion: String by project
 val junitVersion: String by project
 val restAssuredVersion: String by project
 val assertJVersion: String by project
@@ -61,6 +62,7 @@ dependencies {
     implementation("org.slf4j:slf4j-api:$slf4jVersion")
     implementation("org.koin:koin-ktor:$koinVersion")
     implementation("io.github.cdimascio:java-dotenv:$javaDotEnvVersion")
+    implementation("io.arrow-kt:arrow-core:$arrowVersion")
     implementation("com.auth0:java-jwt:$auth0JwtVersion")
     implementation("io.github.microutils:kotlin-logging:$kotlinLoggingVersion")
 
