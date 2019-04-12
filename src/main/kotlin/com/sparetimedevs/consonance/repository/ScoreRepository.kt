@@ -21,6 +21,12 @@ class ScoreRepository(database: Database) {
 
     suspend fun findOneById(id: ObjectId): Either<Error, Score> = collection.readOne(id).toEither()
 
+    suspend fun findOneByTitle(title: String): Either<Error, Score> =
+        collection.readOne("title" to title).toEither()
+
+    suspend fun findOneByLanguageAndTopic(language: String, topic: String): Either<Error, Score> =
+        collection.readOne("language" to language, "topic" to topic).toEither()
+
     suspend fun deleteAll(): Either<Error, Boolean> = collection.deleteAll().toEither()
 
     suspend fun deleteOneById(id: ObjectId): Either<Error, Score> = collection.deleteOne(id).toEither()

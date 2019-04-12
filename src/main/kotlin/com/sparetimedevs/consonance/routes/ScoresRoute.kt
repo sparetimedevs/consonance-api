@@ -18,6 +18,12 @@ import io.ktor.routing.put
 import org.koin.ktor.ext.inject
 
 const val SCORES_PATH = "/scores"
+const val TITLE = "title"
+const val TITLE_PATH_PARAM = "/{$TITLE}"
+const val LANGUAGE = "language"
+const val LANGUAGE_PATH_PARAM = "/{$LANGUAGE}"
+const val TOPIC = "topic"
+const val TOPIC_PATH_PARAM = "/{$TOPIC}"
 
 fun Route.scoreRoutes() {
 
@@ -32,6 +38,21 @@ fun Route.scoreRoutes() {
 
     get("$SCORES_PATH$ID_PATH_PARAM") {
         scoreRepository.findOneById(call.parameters[ID]?.toObjectId()!!).fold(
+            { respondWithError(call, it) },
+            { call.respond(HttpStatusCode.OK, it) }
+        )
+    }
+
+    //TODO this one seems to collide with findOneById. http://localhost:8084/scores/Theleperaffinity vs http://localhost:8084/scores/5cb0e874200d8e031303bb98
+    get("$SCORES_PATH$TITLE_PATH_PARAM") {
+        scoreRepository.findOneByTitle(call.parameters[TITLE]!!).fold(
+            { respondWithError(call, it) },
+            { call.respond(HttpStatusCode.OK, it) }
+        )
+    }
+
+    get("$SCORES_PATH$LANGUAGE_PATH_PARAM$TOPIC_PATH_PARAM") {
+        scoreRepository.findOneByLanguageAndTopic(call.parameters[LANGUAGE]!!, call.parameters[TOPIC]!!).fold(
             { respondWithError(call, it) },
             { call.respond(HttpStatusCode.OK, it) }
         )
